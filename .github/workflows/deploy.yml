@@ -1,0 +1,66 @@
+name: Deploy Quartz site to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+# Least privilege: the default token can do nothing; each job asks for what it needs.
+permissions: {}
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: site
+    steps:
+      # Actions pinned by commit SHA (tag in comment) so a moved tag cannot change what runs.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # full history so Quartz can read git dates
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: site/.node-version
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install dependencies (lockfile only, no install scripts)
+        run: npm ci
+      - name: Build Quartz (content = vault root, only publish:true notes)
+        run: npx quartz build -d ..
+      - name: Guard — no non-image assets leaked into the build
+        run: |
+          set -eu
+          leaked=$(find public -type f ! -path 'public/static/*' \
+            ! -name '*.html' ! -name '*.css' ! -name '*.js' ! -name '*.xml' ! -name '*.json' ! -name '*.txt' \
+            ! -name '*.png' ! -name '*.jpg' ! -name '*.jpeg' ! -name '*.gif' ! -name '*.svg' ! -name '*.webp' ! -name '*.avif' \
+            ! -name '*.ico' ! -name '*.woff' ! -name '*.woff2')
+          if [ -n "$leaked" ]; then echo "Unexpected files in build output:"; echo "$leaked"; exit 1; fi
+          if find public -path '*/reference/*' | grep -q .; then echo "reference/ content in build output"; exit 1; fi
+      - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: site/public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

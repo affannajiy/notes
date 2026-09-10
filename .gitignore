@@ -1,0 +1,21 @@
+# Private course material (never committed, never published)
+**/reference/
+
+# Obsidian per-device state (the rest of .obsidian/ is tracked)
+.obsidian/workspace*
+.obsidian/cache
+.obsidian/plugins/*/data.json
+
+# Secrets — never in source control
+.env
+.env.*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Quartz build output / deps
+node_modules/
+public/
+.quartz-cache/
+site/tsconfig.tsbuildinfo
