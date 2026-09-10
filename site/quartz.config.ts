@@ -15,14 +15,13 @@ const config: QuartzConfig = {
     enablePopovers: true,
     analytics: null,
     locale: "en-US",
-    // TODO: set to "<github-username>.github.io/<repo-name>" (no protocol, no trailing slash)
-    baseUrl: "username.github.io/notes",
+    baseUrl: "affannajiy.github.io/notes",
     // Content root is the vault (`-d ..`). Everything below is excluded from the
     // content scan outright; `.gitignore` at the vault root is honoured too, so
     // `**/reference/` never reaches the build. Anything that survives still has
     // to pass the ExplicitPublish filter (`publish: true`).
     ignorePatterns: [
-      "site",        // this Quartz install
+      "site", // this Quartz install
       "templates",
       "**/reference/**",
       ".obsidian",
