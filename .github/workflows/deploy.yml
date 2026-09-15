@@ -35,8 +35,11 @@ jobs:
           cache-dependency-path: site/package-lock.json
       - name: Install dependencies (lockfile only, no install scripts)
         run: npm ci
+      # Run the CLI through node, not `npx quartz`: that shim needs the execute bit on
+      # quartz/bootstrap-cli.mjs, which a Windows checkout never records (mode 100644),
+      # so it fails on the Linux runner with "quartz: Permission denied".
       - name: Build Quartz (content = vault root, only publish:true notes)
-        run: npx quartz build -d ..
+        run: node quartz/bootstrap-cli.mjs build -d ..
       - name: Guard - no non-image assets leaked into the build
         run: |
           set -eu
