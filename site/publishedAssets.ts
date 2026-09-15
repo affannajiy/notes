@@ -10,7 +10,7 @@ import { glob } from "./quartz/util/glob"
  * The built-in one copies EVERY non-markdown file under the content root, and
  * the `publish: true` frontmatter gate only applies to markdown. A PDF or slide
  * deck dropped next to a note would therefore go live. This emitter only copies
- * web image formats — anything else never leaves the vault.
+ * web image formats - anything else never leaves the vault.
  *
  * Lives outside `quartz/` so `npx quartz update` cannot overwrite it.
  */

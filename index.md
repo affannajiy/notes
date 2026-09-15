@@ -3,8 +3,12 @@ title: Home
 publish: true
 ---
 
-Course notes and article logs from a CS degree. Only notes marked `publish: true` appear here;
-use the explorer on the left or search (`/`) to find a topic.
+Things I want to keep. One short note per weekday, each day a different theme. Only notes
+marked `publish: true` appear here; use the explorer on the left, search (`Ctrl+K`, `⌘K` on
+Mac), the graph on the right, or the dice for a random one.
 
-- **Courses** — lecture notes by course
-- **Articles** — daily reading log
+- **Companies** (Monday) - one company: what it does, how it makes money, what surprised me
+- **Takes** (Tuesday) - one claim people disagree on: both sides, where I land, what would change my mind
+- **Topics** (Wednesday) - one "why" question about the world, answered in my own words
+- **Cases** (Thursday) - one real event or decision, analysed rather than retold
+- **Food** (Friday) - one dish, ingredient or cuisine and the story behind it

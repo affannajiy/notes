@@ -37,7 +37,7 @@ jobs:
         run: npm ci
       - name: Build Quartz (content = vault root, only publish:true notes)
         run: npx quartz build -d ..
-      - name: Guard — no non-image assets leaked into the build
+      - name: Guard - no non-image assets leaked into the build
         run: |
           set -eu
           leaked=$(find public -type f ! -path 'public/static/*' \

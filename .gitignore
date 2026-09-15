@@ -6,7 +6,7 @@
 .obsidian/cache
 .obsidian/plugins/*/data.json
 
-# Secrets — never in source control
+# Secrets - never in source control
 .env
 .env.*
 

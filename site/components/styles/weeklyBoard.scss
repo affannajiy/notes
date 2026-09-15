@@ -1,0 +1,57 @@
+.weekly-board {
+  margin: 1.5rem 0;
+
+  .row {
+    display: grid;
+    grid-template-columns: 3rem 6rem 1fr auto;
+    grid-template-areas: "day label note date";
+    column-gap: 0.75rem;
+    align-items: baseline;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--lightgray);
+  }
+
+  .day {
+    grid-area: day;
+    color: var(--gray);
+    font-family: var(--codeFont);
+    font-size: 0.85rem;
+  }
+
+  .label {
+    grid-area: label;
+    justify-self: start;
+    font-weight: 600;
+  }
+
+  .note {
+    grid-area: note;
+    min-width: 0;
+    overflow-wrap: anywhere;
+
+    .empty {
+      color: var(--gray);
+      font-style: italic;
+    }
+  }
+
+  .date {
+    grid-area: date;
+    text-align: end;
+    color: var(--gray);
+    font-size: 0.85rem;
+    white-space: nowrap;
+  }
+
+  // Phone: day, label and date on one line, note title on its own full line
+  // so long titles wrap across the width instead of into a narrow column.
+  @media all and (max-width: 768px) {
+    .row {
+      grid-template-columns: 3rem 1fr auto;
+      grid-template-areas:
+        "day label date"
+        "day note note";
+      row-gap: 0.15rem;
+    }
+  }
+}

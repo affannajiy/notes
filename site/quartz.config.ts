@@ -41,27 +41,31 @@ const config: QuartzConfig = {
         code: "ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace",
       },
       colors: {
+        // Warm cream + orange accent. Light mode uses the two darker oranges so
+        // link text (secondary) and hover / active text (tertiary) both clear
+        // WCAG AA 4.5:1 on the cream; the bright orange only tints highlights.
+        // Dark mode can afford the bright ones.
         lightMode: {
-          light: "#faf8f8",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#284b63",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#fff23688",
+          light: "#faf8f5",
+          lightgray: "#e8e2d8",
+          gray: "#756a5a",
+          darkgray: "#2d2416",
+          dark: "#111010",
+          secondary: "#96410a",
+          tertiary: "#bd4d0e",
+          highlight: "rgba(249, 115, 22, 0.15)",
+          textHighlight: "#fed7aa88",
         },
         darkMode: {
-          light: "#161618",
-          lightgray: "#393639",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
+          light: "#0f0e0d",
+          lightgray: "#2a2520",
+          gray: "#9c8f80",
+          darkgray: "#e8ddd0",
+          dark: "#f3ece2",
+          secondary: "#fb9a52",
+          tertiary: "#f97316",
+          highlight: "rgba(249, 115, 22, 0.15)",
+          textHighlight: "#c2500f88",
         },
       },
     },
@@ -79,12 +83,14 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
-      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
+      // No Latex plugin: KaTeX would load its CSS and JS from jsdelivr on every
+      // page (SECURITY.md invariant 4) and its parser turns "$700 to $166" into
+      // maths. mermaid is off for the same reason: it imports from cdnjs.
+      Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false, mermaid: false }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
     ],
     // HARD GATE: only notes with `publish: true` in frontmatter are emitted.
     filters: [Plugin.ExplicitPublish(), Plugin.RemoveDrafts()],

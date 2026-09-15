@@ -1,0 +1,49 @@
+// Dice button, same box as Quartz's Darkmode / ReaderMode buttons beside it
+// (20x32, icon centred) so the three read as one row of controls.
+.random-note {
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  background: none;
+  border: none;
+  width: 20px;
+  height: 32px;
+  margin: 0;
+  flex-shrink: 0;
+  color: var(--darkgray);
+
+  svg {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    left: 0;
+    fill: none;
+    transition: color 0.2s ease;
+  }
+
+  &:hover {
+    color: var(--secondary);
+  }
+}
+
+// Rabbit hole: a button that reads like a link.
+.rabbit-hole {
+  margin: 0.5rem 0 1.5rem;
+  font-size: 0.9rem;
+
+  .rabbit-hole-link {
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    font-weight: 600;
+    color: var(--secondary);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+}
