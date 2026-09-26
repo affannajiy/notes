@@ -16,15 +16,14 @@ const config: QuartzConfig = {
     analytics: null,
     locale: "en-US",
     baseUrl: "affannajiy.github.io/notes",
-    // Content root is the vault (`-d ..`). Everything below is excluded from the
-    // content scan outright; `.gitignore` at the vault root is honoured too, so
+    // Content root is the repo root (`-d ..`). Everything below is excluded from the
+    // content scan outright; `.gitignore` at the repo root is honoured too, so
     // `**/reference/` never reaches the build. Anything that survives still has
     // to pass the ExplicitPublish filter (`publish: true`).
     ignorePatterns: [
       "site", // this Quartz install
       "templates",
       "**/reference/**",
-      ".obsidian",
       ".github",
       "private",
       "README.md",
@@ -86,6 +85,8 @@ const config: QuartzConfig = {
       // No Latex plugin: KaTeX would load its CSS and JS from jsdelivr on every
       // page (SECURITY.md invariant 4) and its parser turns "$700 to $166" into
       // maths. mermaid is off for the same reason: it imports from cdnjs.
+      // This plugin is what turns [[wikilinks]] and ![[image.png]] into links (and so
+      // builds the graph). It only borrows Obsidian's syntax; the app is not needed.
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false, mermaid: false }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),

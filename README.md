@@ -1,51 +1,69 @@
-# Notes vault
+# Notes
 
-Obsidian vault published selectively to GitHub Pages with [Quartz v4](https://quartz.jzhao.xyz).
+Plain Markdown notes, written in VS Code and published selectively to GitHub Pages with
+[Quartz v4](https://quartz.jzhao.xyz).
 
-The vault runs on a 5-weekday writing routine, one short note per day: Company, Take, Why,
-Case, Food. See `Weekly Routine.md` (bookmarked in Obsidian) for the cheat-sheet and the
-weekend recall routine. `templates/lecture-note.md` is kept but unused; class notes are on paper.
+A general knowledge hub with no schedule: Hub, Company, Take, Why, Case and Food notes, each
+bite-sized. See `How I Use These Notes.md` for the cheat-sheet and the recall habit.
 
 ## Layout
 
 | Path | Purpose | Published? |
 | --- | --- | --- |
-| `Companies/` | Monday: one company profile (`templates/company.md`) | only with `publish: true` |
-| `Takes/` | Tuesday: one claim people disagree on, both sides + my take (`templates/take.md`) | only with `publish: true` |
-| `Topics/` | Wednesday: one "why" question, one idea per note (`templates/topic.md`, Feynman-style); the hub nodes of the graph | only with `publish: true` |
-| `Cases/` | Thursday: one real event, analysed (`templates/case-study.md`, optional SWOT / 5 Forces / PESTEL) | only with `publish: true` |
-| `Food/` | Friday: one food subject and the story behind it (`templates/food.md`) | only with `publish: true` |
-| `templates/` | Obsidian templates | never |
+| `notes/` | every note, all kinds in one flat folder, named after the subject (`PETRONAS.md`, `Lemang.md`) | only with `publish: true` |
+| `templates/` | `note.md`, the one copy-paste starting point for every kind | never |
 | `rulebooks/` | engineering / security / UI-UX principles | only with `publish: true` |
 | `site/` | Quartz install; content root is this folder (`-d ..`) | - |
-| `site/components/` | my own Quartz components (weekly board, random note, rabbit hole, head) | - |
+| `site/components/` | my own Quartz components (latest board, random note, rabbit hole, head) | - |
 
-Every template carries `type:` (`company` `take` `topic` `case` `food`; `media` `article`
-`project` `lecture` templates are kept but have no folder yet) and `date:`. Obsidian Bases can
-list notes by kind, and the weekly board on the home page picks the newest published note of
-each type. Templates start `publish: false`.
-Filenames must be unique across the vault: Quartz resolves `[[Name]]` by shortest path, so
+The kind of a note lives in its frontmatter, not its folder. Every note carries `type:`
+(`hub` `company` `take` `topic` `case` `food`), a matching kind tag (`hub` `company` `take`
+`why` `case` `food`) and `date:`. The latest board on the home page picks the newest published
+note of each type and links to that kind's tag page. The template starts `publish: false`.
+Filenames must be unique across the repo: Quartz resolves `[[Name]]` by shortest path, so
 two notes named the same collide. Link generously - the graph is built from links, not folders.
 
-Source material (slides, PDFs, annual reports, papers) is **not stored in the vault**. Each
-template has a `## Sources` section (or a `url:` field) for name + link instead. As a safety
+## Writing notes
+
+To start a note, copy `templates/note.md` into `notes/`, rename it after the subject, and fill in
+`title:`, `type:` and `date:` (`YYYY-MM-DD`). The skeleton is fixed (In one sentence, a few
+middle sections, Sources, Related); the middle sections come from the per-kind menu in the
+template's comment and bend to the topic. File name and title are just the subject (`Rally Cars`),
+no kind label like "Primer" or "Company 1", unless I ask for one. Link other notes with `[[Note name]]`: the wikilink
+syntax is parsed by Quartz itself, no app needed, and every link is an edge in the graph.
+
+Every note is bite-sized: answer in the first line, one idea per section, 400 to 600 words of
+body (sources not counted), so it reads in 2 to 3 minutes. Tables for lookups, short
+paragraphs for arguments. Why that size:
+
+- People read about 20 to 28% of the words on a web page and scan the top and left edge
+  first ([NN/G](https://www.nngroup.com/articles/how-little-do-users-read/)), so the answer
+  goes first.
+- Learning chunks of 2 to 5 minutes on one idea hold attention best
+  ([Compozer](https://www.compozer.com/post/how-long-should-microlearning-videos-be),
+  [ACM eLearn](https://elearnmag.acm.org/archive.cfm?aid=3704731)).
+
+Hubs are the one exception that may run a little longer, since they are mostly lookup tables.
+
+Source material (slides, PDFs, annual reports, papers) is **not stored in the repo**. Every
+note has a `## Sources` section for name + link instead. As a safety
 net, any folder named `reference/` is still git-ignored and excluded from the build.
 
 Editing in VS Code: the root `.prettierignore` skips `*.md` and `.vscode/settings.json` turns
-off format-on-save for Markdown. Prettier (a Quartz dev dependency) would rewrite `{{date}}`
-in frontmatter to `{ { date } }` and break the Obsidian template placeholders.
+off format-on-save for Markdown, so Prettier (a Quartz dev dependency) never pads the tables
+or rewrites the frontmatter.
 
 ## Publishing rule
 
 A note is published **only** if its frontmatter has `publish: true`. Everything else is dropped
-by the `ExplicitPublish` filter in `site/quartz.config.ts`. `templates/`, `.obsidian/` and any
+by the `ExplicitPublish` filter in `site/quartz.config.ts`. `templates/` and any
 `**/reference/` folder are excluded before the filter runs.
 
 Images (`png jpg jpeg gif svg webp avif`) next to a note are copied to the site; every other
-file type is never emitted. Obsidian saves pasted attachments to `./attachments` beside the note.
-Embed them the way Obsidian does, `![[image.png]]`: the `shortest` link strategy resolves a
-unique bare filename anywhere in the vault, but a hand-written path such as
-`![](attachments/image.png)` is resolved from the vault root and 404s on the site.
+file type is never emitted. Put an image in an `attachments/` folder beside the note and embed
+it as `![[image.png]]`: the `shortest` link strategy resolves a unique bare filename anywhere
+in the repo, but a path such as `![](attachments/image.png)` (what VS Code writes when you
+paste an image) is resolved from the repo root and 404s on the site.
 See [SECURITY.md](SECURITY.md) for the full posture.
 
 ## The site
@@ -54,8 +72,8 @@ Warm cream / orange theme, system fonts, light and dark. The graph is the main f
 
 | Feature | Where | Notes |
 | --- | --- | --- |
-| Graph view | `site/quartz.layout.ts` | Local graph two hops deep; global graph is the whole vault, radial layout, one cluster per folder. |
-| Weekly board | `site/components/WeeklyBoard.tsx` | Home only. One row per weekday, newest published note of that `type:`. Folder label links to the folder page once it has a published note. Edit `ROUTINE` there to change the routine. |
+| Graph view | `site/quartz.layout.ts` | Local graph two hops deep; global graph is every published note, radial layout. |
+| Latest board | `site/components/LatestBoard.tsx` | Home only. One row per note kind, newest published note of that `type:`. The kind label links to its tag page (`tags/company` etc.) once a published note carries that tag. Edit `KINDS` there to add or drop a kind. |
 | Recently written | `site/quartz.layout.ts` | Home only, latest 5 notes, Quartz's `RecentNotes`. |
 | Random note | `site/components/RandomNote.tsx` | Dice button beside dark mode. Any published note except folder, tag and home pages. |
 | Rabbit hole | `site/components/RandomNote.tsx` | Button under every note: follows one of the note's outgoing links at random, or any note if it has none. |
@@ -81,7 +99,7 @@ Push to `main` → `.github/workflows/deploy.yml` builds, checks the output, dep
 | Decision | Why |
 | --- | --- |
 | Quartz from the v4 tarball, not `git clone` | A nested `.git` becomes a broken submodule in this repo. Update by re-extracting a newer tarball over `site/quartz/`, `site/package.json` and `site/package-lock.json`, then `npm ci`. **Never run `npx quartz update` here**: `site/` is not its own git repo, so its `git remote add upstream` / `git pull upstream v4` run against *this* repository, and it stashes the content folder by copying and deleting it. |
-| Content root is the vault (`-d ..`) rather than `site/content` | One source of truth: notes are edited in place, no copy step. |
+| Content root is the repo root (`-d ..`) rather than `site/content` | One source of truth: notes are edited in place, no copy step. |
 | `ExplicitPublish` + image-only asset emitter | Default is private. Publishing takes a deliberate act per file. |
 | System fonts, no analytics, no OG-image emitter | No runtime third-party requests; no build-time network fetch. |
 | Custom components beside `site/quartz/`, never inside it | Upstream stays pristine and replaceable; everything of mine is in `site/components/`, `site/quartz.config.ts`, `site/quartz.layout.ts`, `site/publishedAssets.ts`. |

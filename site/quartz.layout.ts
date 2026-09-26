@@ -1,6 +1,6 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
-import WeeklyBoard from "./components/WeeklyBoard"
+import LatestBoard from "./components/LatestBoard"
 import { RandomNoteComponent, RabbitHoleComponent } from "./components/RandomNote"
 import Head from "./components/Head"
 
@@ -9,9 +9,9 @@ export const sharedPageComponents: SharedLayout = {
   head: Head(), // upstream Head minus its cdnjs preconnect, see components/Head.tsx
   header: [],
   afterBody: [
-    // Home only: the weekday board (latest note per type) and latest 5 notes.
+    // Home only: the latest board (newest note per kind) and latest 5 notes.
     Component.ConditionalRender({
-      component: WeeklyBoard(),
+      component: LatestBoard(),
       condition: (page) => page.fileData.slug === "index",
     }),
     Component.ConditionalRender({
@@ -66,7 +66,7 @@ export const defaultContentPageLayout: PageLayout = {
   right: [
     // Graph is the main feature of the site. Local graph reaches two hops so a
     // note shows its neighbourhood, not just direct links; global graph is the
-    // whole vault with radial layout so clusters (one per folder) read clearly.
+    // whole site with radial layout so clusters of linked notes read clearly.
     Component.Graph({
       localGraph: { depth: 2, scale: 1.1, linkDistance: 40, showTags: false, focusOnHover: true },
       globalGraph: {

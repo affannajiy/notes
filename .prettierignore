@@ -1,5 +1,3 @@
-# Notes belong to Obsidian, not Prettier: it rewrites `{{date}}` in frontmatter to
-# `{ { date } }` (breaks template placeholders), pads tables and strips list markers.
-# Prettier in site/ has its own .prettierignore and is unaffected.
+# Notes are hand-written Markdown, not Prettier's: it pads tables, strips list markers and
+# rewrites frontmatter. Prettier in site/ has its own .prettierignore and is unaffected.
 *.md
-.obsidian

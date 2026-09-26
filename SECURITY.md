@@ -6,10 +6,9 @@ What *this* project does. General principles live in `rulebooks/SECURITY_Ruleboo
 
 | Class | Where | Control |
 | --- | --- | --- |
-| Source material (slides, PDFs, annual reports) | not in the vault - notes link to it | Safety net: any `**/reference/` folder is git-ignored and in Quartz `ignorePatterns`, so a file dropped there is never committed or built. |
+| Source material (slides, PDFs, annual reports) | not in the repo - notes link to it | Safety net: any `**/reference/` folder is git-ignored and in Quartz `ignorePatterns`, so a file dropped there is never committed or built. |
 | Draft notes | any `.md` without `publish: true` | Dropped by `ExplicitPublish` filter. Default is unpublished. |
-| Non-image files next to notes (PDF, PPTX, ZIP…) | anywhere under the vault | Never emitted: `site/publishedAssets.ts` allowlists image extensions only. |
-| Obsidian workspace state | `.obsidian/workspace*` | Git-ignored. |
+| Non-image files next to notes (PDF, PPTX, ZIP…) | anywhere in the repo | Never emitted: `site/publishedAssets.ts` allowlists image extensions only. |
 
 Anything in `public/` after a build is public. The deploy workflow fails if a non-image,
 non-site file or any `reference/` path appears there.
